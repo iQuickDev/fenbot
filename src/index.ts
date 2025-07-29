@@ -1,7 +1,19 @@
 import { Client, GatewayIntentBits } from 'discord.js';
 import * as dotenv from 'dotenv';
+import { createServer } from 'http';
 
 dotenv.config();
+
+const port = process.env.PORT || 3000;
+
+const server = createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ status: 'OK', bot: client.isReady() }));
+});
+
+server.listen(port, () => {
+    console.log(`Health server running on port ${port}`);
+});
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildPresences]

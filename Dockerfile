@@ -32,4 +32,5 @@ COPY --from=build /app/dist ./dist
 # Keep package.json so `npm start` works
 COPY package*.json ./
 
+EXPOSE 3000
 CMD ["npm", "start"]
