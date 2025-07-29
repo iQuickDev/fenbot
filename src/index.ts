@@ -84,7 +84,7 @@ client.on('interactionCreate', async (interaction) => {
 
             for (const [, member] of membersWithRole) {
                 try {
-                    // await member.send('fen');
+                    await member.send('fen');
                 } catch (error) {
                     console.log(`Non riesco a fennare ${member.user.tag}`);
                 }
