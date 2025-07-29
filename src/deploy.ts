@@ -1,0 +1,26 @@
+import { SlashCommandBuilder, REST, Routes } from 'discord.js';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
+const commands = [
+    new SlashCommandBuilder()
+        .setName('fen')
+        .setDescription('fenna tutti gli utenti col ruolo')
+];
+
+const rest = new REST().setToken(process.env.DISCORD_TOKEN!);
+
+(async () => {
+    try {
+        console.log('Registering slash commands...');
+        
+        await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
+            body: commands.map(command => command.toJSON())
+        });
+        
+        console.log('Slash commands registered successfully');
+    } catch (error) {
+        console.error(error);
+    }
+})();
