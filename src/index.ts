@@ -82,13 +82,15 @@ client.on('interactionCreate', async (interaction) => {
             const allMembers = await guild.members.fetch();
             const membersWithRole = allMembers.filter(member => member.roles.cache.has(roleId));
 
-            for (const [, member] of membersWithRole) {
-                try {
-                    await member.send('fen');
-                } catch (error) {
-                    console.log(`Non riesco a fennare ${member.user.tag}`);
-                }
-            }
+            await Promise.all(
+                membersWithRole.map(async member => {
+                    try {
+                        await member.send('fen');
+                    } catch (error) {
+                        console.log(`Non riesco a fennare ${member.user.tag}`);
+                    }
+                })
+            );
             
             await interaction.editReply(`Ho fennato ${membersWithRole.size} fagatron con il ruolo ${role.name}`);
             
