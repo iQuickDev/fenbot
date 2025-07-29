@@ -1,7 +1,7 @@
 <div align="center">
   <h1>🤖 FenBot 🔥</h1>
   <p><em>The ultimate Discord bot for mass messaging mayhem</em></p>
-  <p><em>100% vibe coded<em></p>
+  <p><em>100% vibe coded</em>em></p>
   
   ![Discord](https://img.shields.io/badge/Discord-Bot-7289da?style=for-the-badge&logo=discord&logoColor=white)
   ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
