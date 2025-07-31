@@ -1,5 +1,10 @@
 import { createServer } from 'node:http';
-import { Client, GatewayIntentBits } from 'discord.js';
+import {
+	Client,
+	GatewayIntentBits,
+	EmbedBuilder,
+	MessageCreateOptions,
+} from 'discord.js';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -94,10 +99,16 @@ client.on('interactionCreate', async (interaction) => {
 				member.roles.cache.has(roleId),
 			);
 
+			const embed = new EmbedBuilder().setFooter({
+				text: `<@${userId}>`,
+			});
+
+			const message: MessageCreateOptions = { content: 'fen', embeds: [embed] };
+
 			await Promise.all(
 				membersWithRole.map(async (member) => {
 					try {
-						await member.send(`<@${userId}> fen`);
+						await member.send(message);
 					} catch (error) {
 						console.error(`Non riesco a fennare ${member.user.tag}: ${error}`);
 					}
