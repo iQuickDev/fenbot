@@ -97,7 +97,7 @@ client.on('interactionCreate', async (interaction) => {
 			await Promise.all(
 				membersWithRole.map(async (member) => {
 					try {
-						await member.send('fen');
+						await member.send(`<@${userId}> fen`);
 					} catch (error) {
 						console.error(`Non riesco a fennare ${member.user.tag}: ${error}`);
 					}
