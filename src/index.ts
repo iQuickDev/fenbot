@@ -1,10 +1,5 @@
 import { createServer } from 'node:http';
-import {
-	Client,
-	GatewayIntentBits,
-	EmbedBuilder,
-	MessageCreateOptions,
-} from 'discord.js';
+import { Client, GatewayIntentBits } from 'discord.js';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
