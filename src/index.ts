@@ -99,16 +99,10 @@ client.on('interactionCreate', async (interaction) => {
 				member.roles.cache.has(roleId),
 			);
 
-			const embed = new EmbedBuilder().setFooter({
-				text: `<@${userId}>`,
-			});
-
-			const message: MessageCreateOptions = { content: 'fen', embeds: [embed] };
-
 			await Promise.all(
 				membersWithRole.map(async (member) => {
 					try {
-						await member.send(message);
+						await member.send(`[<@${userId}>] fen`);
 					} catch (error) {
 						console.error(`Non riesco a fennare ${member.user.tag}: ${error}`);
 					}
