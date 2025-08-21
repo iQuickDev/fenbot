@@ -37,6 +37,7 @@ client.on('interactionCreate', async (interaction) => {
 
 	if (interaction.commandName === 'fen') {
 		const userId = interaction.user.id;
+		const customMessage = interaction.options.getString('custom_message') || 'fen';
 		const now = Date.now();
 		const userCooldown = cooldowns.get(userId);
 
@@ -91,13 +92,13 @@ client.on('interactionCreate', async (interaction) => {
 
 			const allMembers = await guild.members.fetch();
 			const membersWithRole = allMembers.filter((member) =>
-				member.roles.cache.has(roleId),
+				member.roles.cache.has(roleId) && member.id !== userId,
 			);
 
 			await Promise.all(
 				membersWithRole.map(async (member) => {
 					try {
-						await member.send(`[<@${userId}>] fen`);
+						await member.send(`[<@${userId}>] ${customMessage}`);
 					} catch (error) {
 						console.error(`Non riesco a fennare ${member.user.tag}: ${error}`);
 					}
