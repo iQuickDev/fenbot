@@ -6,7 +6,12 @@ dotenv.config();
 const commands = [
 	new SlashCommandBuilder()
 		.setName('fen')
-		.setDescription('fenna tutti gli utenti col ruolo'),
+		.setDescription('fenna tutti gli utenti col ruolo')
+		.addStringOption(option =>
+			option.setName('custom_message')
+				.setDescription('Custom message to send (default: "fen")')
+				.setRequired(false)
+		),
 ];
 
 const rest = new REST().setToken(process.env.DISCORD_TOKEN!);

@@ -98,7 +98,7 @@ client.on('interactionCreate', async (interaction) => {
 			await Promise.all(
 				membersWithRole.map(async (member) => {
 					try {
-						await member.send(`[<@${userId}>] ${customMessage}`);
+						await member.send(`[${interaction.user.username}] ${customMessage}`);
 					} catch (error) {
 						console.error(`Non riesco a fennare ${member.user.tag}: ${error}`);
 					}
