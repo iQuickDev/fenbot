@@ -2,7 +2,7 @@
   <h1>🤖 FenBot 🔥</h1>
   <p><em>The ultimate Discord bot for mass messaging mayhem</em></p>
   <p><em>100% vibe coded</em></p>
-  
+
   ![Discord](https://img.shields.io/badge/Discord-Bot-7289da?style=for-the-badge&logo=discord&logoColor=white)
   ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
   ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
@@ -40,13 +40,7 @@ cp .env.example .env
 
 ### Environment Setup
 
-Create a `.env` file with:
-
-```env
-DISCORD_TOKEN=your_bot_token_here
-GUILD_ID=your_server_id
-ROLE_ID=target_role_id
-```
+Create a `.env` file with the environment variables contained in the example
 
 ### Running the Bot
 

@@ -76,6 +76,7 @@ client.on('interactionCreate', async (interaction) => {
 
 		const guildId = process.env.GUILD_ID!;
 		const roleId = process.env.ROLE_ID!;
+		const channelId = process.env.CHANNEL_ID;
 
 		try {
 			await interaction.deferReply();
@@ -91,8 +92,28 @@ client.on('interactionCreate', async (interaction) => {
 			}
 
 			const allMembers = await guild.members.fetch();
+
+			// Get members currently connected to the voice channel to exclude them
+			let voiceChannelMemberIds = new Set<string>();
+			if (channelId) {
+				try {
+					const channel = await guild.channels.fetch(channelId);
+					if (channel?.isVoiceBased()) {
+						// Get members currently connected to the voice channel
+						voiceChannelMemberIds = new Set(channel.members.keys());
+						console.log(`Excluding ${voiceChannelMemberIds.size} members currently in voice channel`);
+					} else {
+						console.warn(`Channel ${channelId} is not a voice channel, no members will be excluded`);
+					}
+				} catch (error) {
+					console.error(`Failed to fetch channel ${channelId}: ${error}`);
+				}
+			}
+
 			const membersWithRole = allMembers.filter((member) =>
-				member.roles.cache.has(roleId) && member.id !== userId,
+				member.roles.cache.has(roleId) &&
+				member.id !== userId &&
+				!voiceChannelMemberIds.has(member.id),
 			);
 
 			await Promise.all(
