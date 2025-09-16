@@ -1,5 +1,12 @@
 import { createServer } from 'node:http';
-import { Client, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } from 'discord.js';
+import {
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonStyle,
+	Client,
+	ComponentType,
+	GatewayIntentBits,
+} from 'discord.js';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -37,7 +44,8 @@ client.on('interactionCreate', async (interaction) => {
 
 	if (interaction.commandName === 'fen') {
 		const userId = interaction.user.id;
-		const customMessage = interaction.options.getString('custom_message') || 'fen';
+		const customMessage =
+			interaction.options.getString('custom_message') || 'fen';
 		const now = Date.now();
 		const userCooldown = cooldowns.get(userId);
 
@@ -101,19 +109,24 @@ client.on('interactionCreate', async (interaction) => {
 					if (channel?.isVoiceBased()) {
 						// Get members currently connected to the voice channel
 						voiceChannelMemberIds = new Set(channel.members.keys());
-						console.log(`Excluding ${voiceChannelMemberIds.size} members currently in voice channel`);
+						console.log(
+							`Excluding ${voiceChannelMemberIds.size} members currently in voice channel`,
+						);
 					} else {
-						console.warn(`Channel ${channelId} is not a voice channel, no members will be excluded`);
+						console.warn(
+							`Channel ${channelId} is not a voice channel, no members will be excluded`,
+						);
 					}
 				} catch (error) {
 					console.error(`Failed to fetch channel ${channelId}: ${error}`);
 				}
 			}
 
-			const membersWithRole = allMembers.filter((member) =>
-				member.roles.cache.has(roleId) &&
-				member.id !== userId &&
-				!voiceChannelMemberIds.has(member.id),
+			const membersWithRole = allMembers.filter(
+				(member) =>
+					member.roles.cache.has(roleId) &&
+					member.id !== userId &&
+					!voiceChannelMemberIds.has(member.id),
 			);
 
 			const calledMembers: string[] = [];
@@ -121,7 +134,9 @@ client.on('interactionCreate', async (interaction) => {
 			await Promise.all(
 				membersWithRole.map(async (member) => {
 					try {
-						await member.send(`[${interaction.user.username}] ${customMessage}`);
+						await member.send(
+							`[${interaction.user.username}] ${customMessage}`,
+						);
 						calledMembers.push(member.user.tag);
 					} catch (error) {
 						console.error(`Non riesco a fennare ${member.user.tag}: ${error}`);
@@ -134,18 +149,19 @@ client.on('interactionCreate', async (interaction) => {
 				.setLabel('Mostra fagatrons')
 				.setStyle(ButtonStyle.Secondary);
 
-			const row = new ActionRowBuilder<ButtonBuilder>()
-				.addComponents(showMembersButton);
+			const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+				showMembersButton,
+			);
 
 			const response = await interaction.editReply({
 				content: `Ho fennato ${membersWithRole.size} fagatron con il ruolo ${role.name}`,
-				components: [row]
+				components: [row],
 			});
 
 			// Create a collector to handle button clicks
 			const collector = response.createMessageComponentCollector({
 				componentType: ComponentType.Button,
-				time: 300000 // 5 minutes
+				time: 300000, // 5 minutes
 			});
 
 			collector.on('collect', async (buttonInteraction) => {
@@ -153,13 +169,13 @@ client.on('interactionCreate', async (interaction) => {
 					if (calledMembers.length === 0) {
 						await buttonInteraction.reply({
 							content: 'Nessun membro è stato fennato con successo.',
-							ephemeral: true
+							ephemeral: true,
 						});
 					} else {
 						const membersList = calledMembers.join('\n');
 						await buttonInteraction.reply({
 							content: `**Membri fennati:**\n\`\`\`\n${membersList}\n\`\`\``,
-							ephemeral: true
+							ephemeral: true,
 						});
 					}
 				}
@@ -173,13 +189,14 @@ client.on('interactionCreate', async (interaction) => {
 					.setStyle(ButtonStyle.Secondary)
 					.setDisabled(true);
 
-				const disabledRow = new ActionRowBuilder<ButtonBuilder>()
-					.addComponents(disabledButton);
+				const disabledRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+					disabledButton,
+				);
 
 				try {
 					await interaction.editReply({
 						content: `Ho fennato ${membersWithRole.size} fagatron con il ruolo ${role.name}`,
-						components: [disabledRow]
+						components: [disabledRow],
 					});
 				} catch (error) {
 					console.error('Failed to disable button:', error);

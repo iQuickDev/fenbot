@@ -7,10 +7,11 @@ const commands = [
 	new SlashCommandBuilder()
 		.setName('fen')
 		.setDescription('fenna tutti gli utenti col ruolo')
-		.addStringOption(option =>
-			option.setName('custom_message')
+		.addStringOption((option) =>
+			option
+				.setName('custom_message')
 				.setDescription('Custom message to send (default: "fen")')
-				.setRequired(false)
+				.setRequired(false),
 		),
 ];
 
