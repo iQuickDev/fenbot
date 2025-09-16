@@ -185,7 +185,7 @@ client.on('interactionCreate', async (interaction) => {
 				// Disable the button after 5 minutes
 				const disabledButton = new ButtonBuilder()
 					.setCustomId('show_called_members')
-					.setLabel('Mostra chi ho chiamato')
+					.setLabel('Mostra fagatrons')
 					.setStyle(ButtonStyle.Secondary)
 					.setDisabled(true);
 
