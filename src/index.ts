@@ -6,6 +6,7 @@ import {
 	Client,
 	ComponentType,
 	GatewayIntentBits,
+    MessageFlags,
 } from 'discord.js';
 import * as dotenv from 'dotenv';
 
@@ -169,13 +170,13 @@ client.on('interactionCreate', async (interaction) => {
 					if (calledMembers.length === 0) {
 						await buttonInteraction.reply({
 							content: 'Nessun membro è stato fennato con successo.',
-							ephemeral: true,
+							flags: MessageFlags.Ephemeral,
 						});
 					} else {
 						const membersList = calledMembers.join('\n');
 						await buttonInteraction.reply({
 							content: `**Membri fennati:**\n\`\`\`\n${membersList}\n\`\`\``,
-							ephemeral: true,
+							flags: MessageFlags.Ephemeral
 						});
 					}
 				}
