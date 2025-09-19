@@ -31,6 +31,7 @@ const client = new Client({
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMembers,
 		GatewayIntentBits.GuildPresences,
+		GatewayIntentBits.GuildVoiceStates,
 	],
 });
 
@@ -110,13 +111,22 @@ client.on('interactionCreate', async (interaction) => {
 		let voiceChannelMemberIds = new Set<string>();
 		if (channelId) {
 			try {
-				const channel = await guild.channels.fetch(channelId);
+				// Force fetch the channel with fresh data to avoid cache issues
+				const channel = await guild.channels.fetch(channelId, { force: true });
 				if (channel?.isVoiceBased()) {
-					// Get members currently connected to the voice channel
-					voiceChannelMemberIds = new Set(channel.members.keys());
-					log.info(
-						`Excluding ${voiceChannelMemberIds.size} members currently in voice channel`,
-					);
+					// Refetch the channel after a small delay to ensure we get the most current member data
+					// This helps avoid Discord.js cache issues where members appear in voice when they're not
+					await new Promise((resolve) => setTimeout(resolve, 100));
+					const freshChannel = await guild.channels.fetch(channelId, {
+						cache: false,
+					});
+
+					if (freshChannel?.isVoiceBased()) {
+						voiceChannelMemberIds = new Set(freshChannel.members.keys());
+						log.info(
+							`Excluding ${voiceChannelMemberIds.size} members currently in voice channel (fresh fetch)`,
+						);
+					}
 				} else {
 					log.warn(
 						`Channel ${channelId} is not a voice channel, no members will be excluded`,
